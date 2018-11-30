@@ -645,7 +645,7 @@ definitions:
       grantedPermissions:
         type: array
         items:
-          type: integer
+          type: string
       menus:
         uniqueItems: false
         type: array
