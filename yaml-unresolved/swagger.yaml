@@ -1027,6 +1027,9 @@ definitions:
       displayName:
         type: string
         description: 租户名称
+      desc:
+        type: string
+        description: 租户描述
       expiryTime:
         type: number
         description: 租户过期时间
