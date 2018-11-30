@@ -1,0 +1,1369 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: '云平台基础业务'
+  description: 云平台基础业务/n
+host: langwenda.com:7000
+basePath: /mock/58
+schemes:
+- http
+tags:
+- name: "工业App"
+  description: "App管理"
+- name: "租户"
+  description: "租户管理"
+- name: "认证"
+  description: "认证"
+- name: "账户"
+  description: "账户管理"
+- name: "权限"
+  description: "权限管理"
+- name: "审计日志"
+  description: "审计日志查询"
+- name: "系统设定"
+  description: "系统设定"
+- name: "IoT"
+  description: "边缘IoT"
+paths: 
+  /iot/summary:
+    get:
+      tags:
+      - "IoT"
+      summary: "统计平台上IoT的信息"
+      description: ""
+      operationId: iot_summary
+      consumes: []
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/IoTSummaryDto"
+  /iot/map:
+    get:
+      tags:
+      - "IoT"
+      summary: "统计平台上IoT的分布"
+      description: ""
+      operationId: iot_map
+      consumes: []
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/IoTMapDto"
+  /passport/authenticate:
+    post:
+      tags:
+      - "认证"
+      summary: "验证用户合法"
+      description: ""
+      operationId: passport_authenticate
+      produces:
+      - "application/json"
+      parameters:
+      - name: authenticateModel
+        in: body
+        required: false
+        schema:
+          $ref: '#/definitions/AuthenticateModel'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/AuthenticateResultModel'
+  /app/all:
+    get:
+      tags:
+      - "工业App"
+      summary: "列出所有App"
+      description: ""
+      operationId: app_listAll
+      consumes: []
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/ListResultDto[AppListDto]'
+  /app/all-brief:
+    get:
+      tags:
+      - "工业App"
+      summary: "列出所有App"
+      description: ""
+      operationId: app_listAllBrief
+      consumes: []
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/ListResultDto[NameValueDto]'
+  /app/find-by-tenant/{tenantId}:
+    get:
+      tags:
+      - "工业App"
+      summary: "列出特定租户下的所有App"
+      description: ""
+      operationId: app_findByTenant
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - name: tenantId
+        in: path
+        description: 需要获得App的租户Id
+        required: true
+        type: integer
+        format: int32
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/TenantAppsDto'
+  /app/authorize:
+    post:
+      tags:
+      - "工业App"
+      summary: 授权租户App权限
+      description: 授权租户App权限
+      operationId: app_addAuthorize
+      parameters:
+      - name: CreateTenantDto
+        in: body
+        required: false
+        schema:
+          $ref: "#/definitions/AuthorizeTenantDto"
+      responses:
+        200:
+          description: OK
+    put:
+      tags:
+      - "工业App"
+      summary: 更新租户App权限
+      description: 更新租户App权限
+      operationId: app_updateAuthorize
+      parameters:
+      - name: UpdateTenantDto
+        in: body
+        required: false
+        schema:
+          $ref: "#/definitions/AuthorizeTenantDto"
+      responses:
+        200:
+          description: OK
+  /app/{appId}/set-stage:
+    put:
+      tags:
+      - "工业App"
+      summary: "操作App上下架"
+      description: ""
+      operationId: app_setStage
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: appId
+        description: app id
+        format: int32
+        type: integer
+        required: true
+      - name: AppStage
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/AppStage"
+      responses:
+        200:
+          description: Success
+  /app/summary:
+    get:
+      tags:
+      - "工业App"
+      summary: "统计平台上App的信息"
+      description: ""
+      operationId: app_summary
+      consumes: []
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/AppSummaryDto"
+  /tenant/searches:
+    post:
+      tags:
+      - "租户"
+      summary: "租户查询"
+      description: ""
+      operationId: tenant_list
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: filterTenants
+        description: 按照查询条件过滤租户
+        schema:
+          $ref: '#/definitions/FilterTenantsDto'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/PagedResultDto[TenantListDto]'
+  /tenant:
+    post:
+      tags:
+      - "租户"
+      summary: "租户开立"
+      description: ""
+      operationId: tenant_add
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+        - name: CreateTenantDto
+          in: body
+          required: false
+          schema:
+            $ref: "#/definitions/CreateTenantDto"
+      responses:
+        200:
+          description: Success
+  /tenant/{tenantId}:
+    get:
+      tags:
+      - "租户"
+      summary: "根据Id获取租户"
+      description: ""
+      operationId: tenant_get
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: tenantId
+        description: 租户Id
+        format: int32
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/TenantDto"
+    put:
+      tags:
+      - "租户"
+      summary: "更新租户"
+      description: ""
+      operationId: tenant_update
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: tenantId
+        description: 租户Id
+        format: int32
+        type: integer
+        required: true
+      - name: UpdateTenantDto
+        in: body
+        required: false
+        schema:
+          $ref: "#/definitions/UpdateTenantDto"
+      responses:
+        200:
+          description: Success
+  /tenant/summary:
+    get:
+      tags:
+      - "租户"
+      summary: "统计平台上租户的信息"
+      description: ""
+      operationId: tenant_summary
+      consumes: []
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/TenantSummaryDto"
+  /account/summary:
+    get:
+      tags:
+      - "账户"
+      summary: "统计平台上用户的信息"
+      description: ""
+      operationId: account_summary
+      consumes: []
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/AccountSummaryDto"
+  /account/map:
+    get:
+      tags:
+      - "账户"
+      summary: "统计平台上用户的分布"
+      description: ""
+      operationId: account_map
+      consumes: []
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/AccountMapDto"
+  /account/searches:
+    post:
+      tags:
+      - "账户"
+      summary: "账户查询"
+      description: ""
+      operationId: account_list
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: filterAccounts
+        description: 按照查询条件过滤租户
+        schema:
+          $ref: '#/definitions/FilterAccountsDto'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/PagedResultDto[AccountsListDto]'
+  /account:
+    post:
+      tags:
+      - "账户"
+      summary: "建立账户"
+      description: ""
+      operationId: account_add
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: createAccount
+        description: 新建账户
+        schema:
+          $ref: '#/definitions/CreateAccountDto'
+      responses:
+        200:
+          description: Success
+    put:
+      tags:
+      - "账户"
+      summary: "更新账户"
+      description: ""
+      operationId: account_update
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: accountId
+        description: 账户Id
+        format: int32
+        type: integer
+        required: true
+      - in: body
+        name: updateAccount
+        description: 更新账户
+        schema:
+          $ref: '#/definitions/UpdateAccountDto'
+      responses:
+        200:
+          description: Succes
+  /account/{accountId}:
+    get:
+      tags:
+      - "账户"
+      summary: "查询特定账户"
+      description: ""
+      operationId: account_get
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: accountId
+        description: 账户Id
+        format: int32
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Succes
+          schema:
+            $ref: '#/definitions/AccountDto'
+    delete:
+      tags:
+      - "账户"
+      summary: "删除账户"
+      description: ""
+      operationId: account_delete
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: accountId
+        description: 账户Id
+        format: int32
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Succes
+  /account/{accountId}/upload-image:
+    post:
+      tags:
+      - 账户
+      summary: 上传头像
+      operationId: account_uploadImage
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - name: accountId
+        in: path
+        description: ID of Account to update
+        required: true
+        type: integer
+        format: int64
+      - name: additionalMetadata
+        in: formData
+        description: Additional data to pass to server
+        required: false
+        type: string
+      - name: file
+        in: formData
+        description: file to upload
+        required: false
+        type: file
+      responses:
+        200:
+          description: successful operation
+  /account-group/all:
+    get:
+      tags:
+      - "账户"
+      summary: "账户组查询"
+      description: ""
+      operationId: accountGroup_list
+      consumes: []
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/ListResultDto[AccountGroupDto]'
+  /account-group:
+    post:
+      tags:
+      - "账户"
+      summary: "新建账户组"
+      description: ""
+      operationId: accountGroup_add
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+        - name: CreateAccountGroup
+          in: body
+          required: false
+          schema:
+            $ref: "#/definitions/CreateAccountGroupDto"
+      responses:
+        200:
+          description: Success
+  /account-group/{accountGroupId}:
+    put:
+      tags:
+      - "账户"
+      summary: "更新账户组"
+      description: ""
+      operationId: accountGroup_update
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: accountGroupId
+        description: 账户组Id
+        format: int32
+        type: integer
+        required: true
+      - in: body
+        name: updateAccountGroup
+        description: 更新账户组
+        schema:
+          $ref: '#/definitions/UpdateAccountGroupDto'
+      responses:
+        200:
+          description: Succes
+    delete:
+      tags:
+      - "账户"
+      summary: "删除账户组"
+      description: ""
+      operationId: accountGroup_delete
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: accountGroupId
+        description: 账户组Id
+        format: int32
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Succes
+  /audit-log/searches:
+    post:
+      tags:
+      - "审计日志"
+      summary: "审计日志查询"
+      description: ""
+      operationId: auditLog_list
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: filterAuditLogs
+        description: 按照查询条件过滤审计日志
+        schema:
+          $ref: '#/definitions/FilterAuditLogsDto'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/PagedResultDto[AuditLogsListDto]'
+  /permission/all:
+    get:
+      tags:
+      - "权限"
+      summary: "列出所有权限"
+      description: ""
+      operationId: permission_listAll
+      consumes: []
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/ListResultDto[PermissionDto]'
+  /permission/account-group/{accountGroupId}:
+    get:
+      tags:
+      - "权限"
+      summary: "列出用户组的所有权限"
+      description: ""
+      operationId: permission_listByAccountGroupId
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: accountGroupId
+        description: 账户组Id
+        format: int32
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/ListResultDto[PermissionDto]'
+    post:
+      tags:
+        - "权限"
+      summary: "更新用户组的所有权限"
+      description: ""
+      operationId: permission_updateAccountGroupPermissions
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: accountGroupId
+        description: 账户组Id
+        format: int32
+        type: integer
+        required: true
+      - in: body
+        name: updateAccountGroupPermission
+        description: 更新账户组权限 
+        schema:
+          $ref: '#/definitions/GrantedPermissionsDto'
+      responses:
+        200:
+          description: Success
+  /permission/account/{accountId}:
+    get:
+      tags:
+      - "权限"
+      summary: "列出用户的所有权限"
+      description: ""
+      operationId: permission_listByAccountId
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: accountId
+        description: 账户Id
+        format: int32
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/ListResultDto[PermissionDto]'
+    post:
+      tags:
+        - "权限"
+      summary: "更新用户的所有权限"
+      description: ""
+      operationId: permission_updateAccountPermissions
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - in: path
+        name: accountId
+        description: 账户Id
+        format: int32
+        type: integer
+        required: true
+      - in: body
+        name: updateAccountPermission
+        description: 更新账户权限
+        schema:
+          $ref: '#/definitions/GrantedPermissionsDto'
+      responses:
+        200:
+          description: Success
+  /settings/all:
+    get:
+      tags:
+      - "系统设定"
+      summary: "列出租户的所有设定"
+      description: ""
+      operationId: settings_listAll
+      consumes: []
+      produces: []
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/SettingsDto'
+    post:
+      tags:
+      - "系统设定"
+      summary: "更新租户的所有设定"
+      description: ""
+      operationId: settings_updateAll
+      consumes: []
+      produces: []
+      parameters:
+      - in: body
+        name: UpdateTenantAllSettings
+        description: 更新账户组权限 
+        schema:
+          $ref: '#/definitions/SettingsDto'
+      responses:
+        200:
+          description: Success
+  /settings/startup:
+    get:
+      tags:
+      - "系统设定"
+      summary: "用户登录后，返回菜单、权限和设定数据"
+      description: ""
+      operationId: settings_startup
+      consumes: []
+      produces: []
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/StartupDto'
+definitions:
+  MenuItemDto:
+    type: object
+    properties:
+      text:
+        type: string
+      icon:
+        type: string
+      link:
+        type: string
+      children:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/MenuItemDto'
+  StartupDto:
+    type: object
+    properties:
+      grantedPermissions:
+        type: array
+        items:
+          type: string
+      menus:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/MenuItemDto'
+      settings:
+        $ref: '#/definitions/SettingsDto'
+  SettingsDto:
+    type: object
+    properties:
+      logo:
+        type: string
+      themeColor:
+        type: string
+      defalutMenuState:
+        type: string
+  GrantedPermissionsDto:
+    type: object
+    properties:
+      ids:
+        type: array
+        items:
+          type: integer
+  PermissionDto:
+    type: object
+    properties:
+      id:
+        type: integer
+      level:
+        type: integer
+      parentId:
+        type: integer
+      displayName:
+        type: string
+      desc:
+        type: string
+  ListResultDto[PermissionDto]:
+    type: object
+    properties:
+      items:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/PermissionDto'
+  FilterAuditLogsDto:
+    type: object
+    properties:
+      createTimeFrom:
+        type: integer
+        format: int64
+        description: 创建时间从
+      createTimeEnd:
+        type: integer
+        format: int64
+        description: 创建时间到
+      timeOfDurationFrom:
+        type: integer
+      timeOfDurationEnd:
+        type: integer
+      status:
+        type: string
+      account:
+        type: string
+  AuditLogsListDto:
+    type: object
+    properties:
+      id:
+        format: int64
+        type: integer
+      account:
+        type: string
+      app:
+        type: string
+      api:
+        type: string
+      status:
+        type: string
+      createTime:
+        type: integer
+        format: int64
+      timeOfDuration:
+        type: integer
+      ip: 
+        type: string
+      client:
+        type: string
+  PagedResultDto[AuditLogsListDto]:
+    type: object
+    properties:
+      totalCount:
+        format: int32
+        type: integer
+      items:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogsListDto'
+  AccountDto:
+    type: object
+    properties:
+      id:
+        format: int32
+        type: integer
+      code:
+        type: string
+        description: 账户编号
+      displayName:
+        type: string
+        description: 账户名称
+      email:
+        type: string
+        description: 邮箱
+      isActive:
+        type: boolean
+        description: 账户是否启用
+      createTime:
+        type: integer
+        format: int64
+        description: 创建时间
+      OwnGroupIds:
+        description: 用户所在组
+        type: array
+        items:
+          type: integer
+  AccountSummaryDto:
+    type: object
+    properties:
+      totalCount:
+        type: integer
+        description: 账户总数
+      activeCount:
+        type: integer
+        description: 启用的账户总数
+      inactiveCount:
+        type: integer
+        description: 停用的账户总数
+  DistributedMapDto:
+    type: object
+    properties:
+      lng:
+        type: number
+        description: 经度
+      lat:
+        type: number
+        description: 纬度
+      city:
+        type: string
+        description: 城市
+      count:
+        type: integer
+        description: 分布数量
+  AccountMapDto:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#definitions/DistributedMapDto'
+  IoTSummaryDto:
+    type: object
+    properties:
+      totalCount:
+        type: integer
+        description: 设备总数
+      onlineCount:
+        type: integer
+        description: 在线设备总数
+      offlineCount:
+        type: integer
+        description: 离线设备总数
+  IoTMapDto:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#definitions/DistributedMapDto'
+  FilterAccountsDto:
+    type: object
+    properties:
+      filter:
+        type: string
+        description: 综合过滤，by name or code
+      accountGroupId:
+        type: integer
+        format: int32
+  CreateAccountDto:
+    type: object
+    properties:
+      code:
+        type: string
+        description: 账户编号
+      displayName:
+        type: string
+        description: 账户名称
+      password:
+        type: string
+      needChangePasswordInNextLogin:
+        type: boolean
+        description: 下次登录需要修改密码
+      email:
+        type: string
+        description: 邮箱
+      isActive:
+        type: boolean
+        description: 账户是否启用
+      accountGourps:
+        type: array
+        items:
+          $ref: '#/definitions/AccountGroupDto'
+  UpdateAccountDto:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: 账户Key
+      displayName:
+        type: string
+        description: 账户名称
+      email:
+        type: string
+        description: 邮箱
+      isActive:
+        type: boolean
+        description: 账户是否启用
+      accountGourps:
+        type: array
+        items:
+          $ref: '#/definitions/AccountGroupDto'
+  AccountListDto:
+    type: object
+    properties:
+      id:
+        format: int32
+        type: integer
+      code:
+        type: string
+        description: 账户编号
+      displayName:
+        type: string
+        description: 账户名称
+      email:
+        type: string
+        description: 邮箱
+      isActive:
+        type: boolean
+        description: 账户是否启用
+      lastLoginTime:
+        type: integer
+        format: int64
+        description: 上次登录时间
+      createTime:
+        type: integer
+        format: int64
+        description: 创建时间
+  PagedResultDto[AccountsListDto]:
+    type: object
+    properties:
+      totalCount:
+        format: int32
+        type: integer
+      items:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/AccountListDto'
+  AccountGroupDto:
+    type: object
+    properties:
+      id:
+        format: int32
+        type: integer
+      displayName:
+        type: string
+        description: 账户组名称
+      isDefault:
+        type: boolean
+        description: 是否是默认组
+      isStatic:
+        type: boolean
+        description: 是否静态（系统生成），不可删除
+  ListResultDto[AccountGroupDto]:
+    type: object
+    properties:
+      items:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/AccountGroupDto'
+  CreateAccountGroupDto:
+    type: object
+    properties:
+      displayName:
+        type: string
+        description: 账户组名称
+      isDefault:
+        type: boolean
+        description: 是否是默认组  
+  UpdateAccountGroupDto:
+    type: object
+    properties:
+      displayName:
+        type: string
+        description: 账户组名称
+      isDefault:
+        type: boolean
+        description: 是否是默认组  
+  AppStatus:
+    type: string
+    enum: [InUse, NotInUse, Overdue]
+    description: 使用中/未使用/逾期
+  AppStage:
+    type: string
+    enum: [preparatory, forSale]
+    description: 准备（下架）/出售（上架）
+  AppAuthorizeScope:
+    type: string
+    enum: [All,ToTenants,ToTenantGroups]
+    description: 面向所有/面向租户/面向租户组
+  AppEditionType:
+    type: string
+    enum: [Standard, Customize]
+    description: 标准版/定制版
+  AppSummaryDto:
+    type: object
+    properties:
+      totalCount:
+        type: integer
+        description: App总数
+      CountForSale:
+        type: integer
+        description: 上架(出售)的App总数
+      CountInPreparatory:
+        type: integer
+        description: 下架(准备阶段)的App总数
+  AuthorizeTenantDto:
+    type: object
+    properties:
+      tenantId:
+        type: integer
+      appId:
+        type: integer
+      basic:
+        type: boolean
+        description: 基础功能
+      basicExpiryTime:
+        type: number
+        description: 基础功能预期时间
+      pay:
+        type: boolean
+        description: 付费功能
+      payExpiryTime:
+        type: number
+        description: 付费功能预期时间
+  TenantAppsDto:
+    type: object
+    properties:
+      tenant:
+        type: object
+        $ref: '#/definitions/TenantDto'
+      apps:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/AppDto'
+  ListResultDto[AppListDto]:
+    type: object
+    properties:
+      items:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/AppListDto'
+  AppListDto:
+    type: object
+    properties:
+      id:
+        type: integer
+      displayName:
+        type: string
+      summary:
+        type: string
+        description: 概要
+      imageUrl:
+        type: string
+        description: 图片地址
+      appKey:
+        type: string
+      appEditionType:
+        $ref: '#/definitions/AppEditionType'
+      authorizeScope:
+        $ref: '#/definitions/AppAuthorizeScope'
+      version:
+        type: string
+        description: 版本号
+      appStage:
+        $ref: '#/definitions/AppStage'
+      updateTime:
+        type: integer
+        format: int64
+        description: 更新时间
+  AppDto:
+    type: object
+    properties:
+      id:
+        type: integer
+      displayName:
+        type: string
+      appKey:
+        type: string
+      appEditionType:
+        $ref: '#/definitions/AppEditionType'
+      status:
+        $ref: '#/definitions/AppStatus'
+      basic:
+        type: boolean
+        description: 基础功能
+      basicExpiryTime:
+        type: number
+        description: 基础功能预期时间
+      pay:
+        type: boolean
+        description: 付费功能
+      payExpiryTime:
+        type: number
+        description: 付费功能预期时间
+  ListResultDto[AppDto]:
+    type: object
+    properties:
+      items:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/AppDto'
+  TenantDto:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: 租户key
+      code:
+        type: string
+        description: 租户编号
+      displayName:
+        type: string
+        description: 租户名称
+      desc:
+        type: string
+        description: 租户描述
+      expiryTime:
+        type: number
+        description: 租户过期时间
+      isActive:
+        type: boolean
+        description: 是否激活租户
+  TenantSummaryDto:
+    type: object
+    properties:
+      totalCount:
+        type: integer
+        description: 租户总数
+      activeCount:
+        type: integer
+        description: 启用的租户总数
+      inactiveCount:
+        type: integer
+        description: 停用的租户总数
+  CreateTenantDto:
+    type: object
+    required:
+      - code
+      - displayName
+      - adminEmail
+      - adminPassword
+    properties:
+      code:
+        type: string
+        description: 租户编号
+      displayName:
+        type: string
+        description: 租户名称
+      desc:
+        type: string
+        description: 租户描述
+      adminEmail:
+        type: string
+        description: 租户管理员邮箱
+      adminPassword:
+        type: string
+      shouldChangePasswordOnNextLogin:
+        type: boolean
+        description: 下次登录时密码重置
+      isActive:
+        type: boolean
+        description: 是否激活租户
+      expiryTime:
+        type: number
+        description: 租户过期时间
+  UpdateTenantDto:
+    type: object
+    required:
+      - isActive
+    properties:
+      displayName:
+        type: string
+        description: 租户名称
+      desc:
+        type: string
+        description: 租户描述
+      isActive:
+        type: boolean
+        description: 是否激活租户
+      expiryTime:
+        type: number
+        description: 租户过期时间
+  PagedResultDto[TenantListDto]:
+    type: object
+    properties:
+      totalCount:
+        format: int32
+        type: integer
+      items:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/TenantListDto'
+  TenantListDto:
+    type: object
+    properties:
+      id:
+        format: int32
+        type: integer
+      code:
+        type: string
+      name:
+        type: string
+      isActive:
+        type: boolean
+      createTime:
+        type: integer
+        format: int64
+        description: 创建时间
+      expiryTime:
+        type: integer
+        format: int64
+        description: 过期时间
+  FilterTenantsDto:
+    type: object
+    properties:
+      filter:
+        type: string
+      tenantCode:
+        type: string
+      tenantName:
+        type: string
+      appId:
+        type: integer
+      createDateStart:
+        type: integer
+        format: int64
+      createDateEnd:
+        type: integer
+        format: int64
+      pageIndex:
+        type: integer
+      pageSize:
+        type: integer
+  AuthenticateResultModel:
+    type: object
+    properties:
+      accessToken:
+        type: string
+        description: 授权Token
+      expireInSeconds:
+        format: int32
+        type: integer
+        description: 有效时长
+      shouldResetPassword:
+        type: boolean
+        description: 是否需要重置密码
+      passwordResetCode:
+        type: string
+        description: 如果需要重置密码，生成ResetCode后返回前端
+      userId:
+        format: int64
+        type: integer
+      returnUrl:
+        type: string
+  AuthenticateModel:
+    required:
+      - userName
+      - password
+    type: object
+    properties:
+      tenantCode:
+        type: string
+      userName:
+        maxLength: 256
+        type: string
+        description: 用户名
+      password:
+        maxLength: 32
+        type: string
+      rememberClient:
+        type: boolean
+      returnUrl:
+        type: string
+        description: 未登录时访问的页面，登录后需要重定向
+  ListResultDto[NameValueDto]:
+    type: object
+    properties:
+      items:
+        uniqueItems: false
+        type: array
+        items:
+          $ref: '#/definitions/NameValueDto'
+  NameValueDto:
+    type: object
+    properties:
+      name:
+        type: string
+      value:
+        type: string
