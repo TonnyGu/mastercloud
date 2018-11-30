@@ -652,10 +652,7 @@ definitions:
         items:
           $ref: '#/definitions/MenuItemDto'
       settings:
-        uniqueItems: false
-        type: array
-        items:
-          $ref: '#/definitions/SettingsDto'
+        $ref: '#/definitions/SettingsDto'
   SettingsDto:
     type: object
     properties:
