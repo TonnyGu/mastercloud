@@ -808,9 +808,9 @@ definitions:
       account:
         type: string
       pageIndex:
-        type: int
+        type: integer
       pageSize:
-        type: int
+        type: integer
   AuditLogsListDto:
     type: object
     properties:
