@@ -807,6 +807,10 @@ definitions:
         type: string
       account:
         type: string
+      pageIndex:
+        type: int
+      pageSize:
+        type: int
   AuditLogsListDto:
     type: object
     properties:
