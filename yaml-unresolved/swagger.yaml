@@ -924,7 +924,7 @@ definitions:
       items:
         type: array
         items:
-          $ref: '#definitions/DistributedMapDto'
+          $ref: '#/definitions/DistributedMapDto'
   FilterAccountsDto:
     type: object
     properties:
