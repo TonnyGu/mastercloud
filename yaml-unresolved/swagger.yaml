@@ -905,7 +905,7 @@ definitions:
       items:
         type: array
         items:
-          $ref: '#definitions/DistributedMapDto'
+          $ref: '#/definitions/DistributedMapDto'
   IoTSummaryDto:
     type: object
     properties:
