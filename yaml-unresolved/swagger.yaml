@@ -934,6 +934,10 @@ definitions:
       accountGroupId:
         type: integer
         format: int32
+      pageIndex:
+        type: integer
+      pageSize:
+        type: integer
   CreateAccountDto:
     type: object
     properties:
