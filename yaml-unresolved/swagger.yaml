@@ -872,7 +872,7 @@ definitions:
         type: integer
         format: int64
         description: 创建时间
-      OwnGroupIds:
+      ownGroupIds:
         description: 用户所在组
         type: array
         items:
