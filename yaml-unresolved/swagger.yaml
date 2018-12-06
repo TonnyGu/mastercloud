@@ -87,6 +87,12 @@ paths:
       consumes: []
       produces:
       - "application/json"
+      parameters:
+      - in: body
+        name: pageSerchDto
+        description: 按照分页条件过滤APP
+        schema:
+          $ref: '#/definitions/PageSearchDto'
       responses:
         200:
           description: Success
@@ -1374,3 +1380,10 @@ definitions:
         type: string
       value:
         type: string
+  PageSearchDto:
+    type: object
+    properties:
+      pageSize:
+        type: number
+      pageIndex:
+        type: number
