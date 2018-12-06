@@ -78,7 +78,7 @@ paths:
           schema:
             $ref: '#/definitions/AuthenticateResultModel'
   /app/all:
-    get:
+    post:
       tags:
       - "工业App"
       summary: "列出所有App"
