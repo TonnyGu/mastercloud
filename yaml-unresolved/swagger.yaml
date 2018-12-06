@@ -160,7 +160,7 @@ paths:
       responses:
         200:
           description: OK
-  /app/{appId}/set-stage:
+  /app/{appId}/set-stage/{stage}:
     put:
       tags:
       - "工业App"
@@ -177,11 +177,10 @@ paths:
         format: int32
         type: integer
         required: true
-      - name: AppStage
-        in: body
+      - name: stage
+        in: path
+        type: string
         required: true
-        schema:
-          $ref: "#/definitions/AppStage"
       responses:
         200:
           description: Success
