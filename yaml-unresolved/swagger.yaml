@@ -85,15 +85,7 @@ paths:
       description: ""
       operationId: app_listAll
       consumes: []
-      parameters:
-      - name: pageSize
-        in: body
-        type: number
-        required: true
-      - name: pageIndex
-        in: body
-        type: number
-        required: true
+      produces:
       - "application/json"
       responses:
         200:
