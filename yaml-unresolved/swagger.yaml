@@ -113,6 +113,34 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/ListResultDto[NameValueDto]'
+  /app/{tenantId}/{appId}:
+    get:
+      tags:
+      - "工业App"
+      summary: "根据租户id和appid获取改app的授权信息"
+      description: ""
+      operationId: app_get
+      consumes: []
+      produces:
+      - "application/json"
+      parameters:
+      - name: tenantId
+        in: path
+        description: 需要获得App的租户Id
+        required: true
+        type: integer
+        format: int32
+      - in: path
+        name: appId
+        description: appId
+        format: int32
+        type: integer
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/AppDto"
   /app/find-by-tenant/{tenantId}:
     get:
       tags:
