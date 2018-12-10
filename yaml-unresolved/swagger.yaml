@@ -840,6 +840,12 @@ definitions:
         type: string
       account:
         type: string
+      app:
+        type: string
+      api:
+        type: string
+      filter:
+        type: string
       pageIndex:
         type: integer
       pageSize:
